@@ -1,4 +1,4 @@
-name: Build and output (Windows)
+name: Build (Windows)
 
 on:
   pull_request:
@@ -43,9 +43,11 @@ jobs:
           $env:RCC = "$env:QT_ROOT_DIR\bin\rcc.exe"
           cargo build --release
 
-      - name: Upload Build Artifact
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-release-build
-          path: target/release/*.exe
+          path: |
+            target/release/*.exe
+            dist/
           if-no-files-found: error
