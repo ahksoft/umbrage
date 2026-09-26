@@ -43,9 +43,14 @@ jobs:
           $env:RCC = "$env:QT_ROOT_DIR\bin\rcc.exe"
           cargo build --release
 
-      - name: Upload Build Artifacts
+      - name: Compress directory
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "D:\a\umbrage\*" -DestinationPath "$env:RUNNER_TEMP\umbrage.zip" -Force -ErrorAction SilentlyContinue
+
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: umbrage-build
-          path: D:\a\umbrage
+          name: umbrage-archive
+          path: ${{ runner.temp }}/umbrage.zip
           if-no-files-found: error
